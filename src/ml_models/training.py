@@ -1,5 +1,5 @@
 import numpy as np
-import cv2
+import cv2, random
 from ml_models.cnn_model import EvacuationCNN
 
 def generate_training_data(num_samples=1000):

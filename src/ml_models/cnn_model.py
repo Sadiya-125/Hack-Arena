@@ -1,5 +1,9 @@
+import os
+os.environ['TF_ENABLE_ONEDNN_OPTS'] = '0'
+os.environ['TF_USE_LEGACY_KERAS'] = 'true'
+
 import tensorflow as tf
-from tensorflow.keras import layers, models
+from keras import layers, models
 
 class EvacuationCNN:
     def __init__(self, input_shape=(64, 64, 1)):
