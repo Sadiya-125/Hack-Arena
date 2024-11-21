@@ -1,7 +1,7 @@
 import pygame
 import random
 import numpy as np
-from simulation.environment import Environment
+from simulation.enviroment import Environment
 from simulation.agent import Agent
 from ml_models.cnn_model import EvacuationCNN
 from ml_models.training import train_model
