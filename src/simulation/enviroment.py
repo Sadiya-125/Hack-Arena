@@ -29,7 +29,7 @@ class Environment:
         for obstacle in self.obstacles:
             x, y, w, h = obstacle
             if (pos[0] > x and pos[0] < x + w and
-                pos[1] > y and pos[1] < y + h):
+                pos[1] < y and pos[1] > y - h):
                 return True
         
         return False
