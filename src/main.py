@@ -39,4 +39,45 @@ class EvacuationSimulation:
         running = True
         
         while running:
-            for event in
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    running = False
+            
+            # Get state and make prediction for each agent
+            for agent in self.agents:
+                state = self.get_agent_state(agent)
+                movement = self.cnn_model.predict_movement(state)
+                agent.update_position(movement, self.environment)
+                
+                # Check if the agent has evacuated
+                if self.check_evacuation(agent):
+                    agent.evacuated = True
+            
+            # Clear screen and redraw everything
+            self.screen.fill((255, 255, 255))  # White background
+            self.environment.draw_obstacles(self.screen)
+            
+            for agent in self.agents:
+                agent.draw(self.screen)
+            
+            # Draw exit point
+            pygame.draw.circle(self.screen, (0, 255, 0), self.environment.exit_point, 10)
+            
+            # Display the evacuation status
+            evacuated_count = sum(1 for agent in self.agents if agent.evacuated)
+            font = pygame.font.SysFont(None, 36)
+            evac_text = font.render(f"Evacuated: {evacuated_count}/{len(self.agents)}", True, (0, 0, 0))
+            self.screen.blit(evac_text, (10, 10))
+            
+            # Update the display
+            pygame.display.flip()
+            # Limit frames per second
+            clock.tick(60)
+        pygame.quit()
+
+# Main execution
+if __name__ == "__main__":
+    # Optionally, train the model before running the simulation
+    # train_model()
+    simulation = EvacuationSimulation(num_agents=20)
+    simulation.run()
